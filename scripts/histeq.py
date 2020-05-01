@@ -54,13 +54,16 @@ def equalize_image_histogram(image):
 def main():
     """
         Main function execution call:
-            python histeq.py <path_to_image> <exec_mode>
+            python histeq.py <exec_mode> <path_to_image> 
         Exec_mode values :
             "show" (use open cv to display horizontally stacked the original image and its processed version)
             "save" (save processed version in the same directory as the original image by appending "_eqnorm" to its name)
     """
-    image_path = sys.argv[1]
-    exec_mode = sys.argv[2]
+    exec_mode = sys.argv[1]
+    image_path = sys.argv[2]
+
+    if len(sys.argv) != 3:
+        raise TypeError('Incorrect number of arguments, usage is : python histeq.py <exec_mode> <path_to_image> ')
 
     image = cv2.imread(image_path, 1)
     eq_norm_image = equalize_image_histogram(image)
