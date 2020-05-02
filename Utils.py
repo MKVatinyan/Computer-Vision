@@ -54,13 +54,30 @@ def shift_hsv_values(input_color_hsv, hue = 0, saturation = 0, value = 0):
     
     return
 
-def plot_2_gray_images(first, second, interpolation = None):
+def plot_2_images(first, 
+                  second, 
+                  mode,
+                  first_title = None, 
+                  second_title = None, 
+                  interpolation = None):
 
     plt.subplot(1, 2, 1)
-    plt.imshow(first, cmap='gray', interpolation = interpolation)
+    plt.title(first_title)
+    if mode=="gray":
+        plt.imshow(first, cmap='gray', interpolation = interpolation, vmin=0, vmax=255)
+    elif mode=="rgb":
+        plt.imshow(first, interpolation = interpolation, vmin=0, vmax=255)
+    else: 
+        raise ValueError("Unknown mode = {}".format(mode))
     plt.axis('off')
 
     plt.subplot(1, 2, 2)
-    plt.imshow(second, cmap='gray', interpolation = interpolation)
+    plt.title(second_title)
+    if mode=="gray":
+        plt.imshow(second, cmap='gray', interpolation = interpolation, vmin=0, vmax=255)
+    elif mode=="rgb":
+        plt.imshow(second, interpolation = interpolation, vmin=0, vmax=255)
+    else: 
+        raise ValueError("Unknown mode = {}".format(mode))
     plt.axis('off')
     plt.show()
