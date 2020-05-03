@@ -14,7 +14,7 @@ def resize_image(image, factor, interpolation):
     
     return cv2.resize(image, (new_image_w, new_image_h), interpolation = interpolation)
 
-def shift_rgb_values(input_color_rgb, red = 0, green = 0, blue = 0):
+def shift_rgb_values(input_color_rgb, show = False, red = 0, green = 0, blue = 0):
     
     # Switch to uint16 to be able to go above 256
     shifted_img_color_rgb = input_color_rgb.copy().astype(np.uint16)
@@ -28,13 +28,16 @@ def shift_rgb_values(input_color_rgb, red = 0, green = 0, blue = 0):
     shifted_img_color_rgb = shifted_img_color_rgb.astype(np.uint8)
 
     # Show image
-    plt.imshow(shifted_img_color_rgb, interpolation = 'bicubic')
-    plt.axis('off')
-    plt.show()
-    
-    return
+    if show:
+        plt.imshow(shifted_img_color_rgb, interpolation = 'bicubic')
+        plt.axis('off')
+        plt.show()
 
-def shift_hsv_values(input_color_hsv, hue = 0, saturation = 0, value = 0):
+        return
+    else:
+        return shifted_img_color_rgb
+
+def shift_hsv_values(input_color_hsv, show = False, hue = 0, saturation = 0, value = 0):
     
     # Switch to uint16 to be able to go above 256
     shifted_img_color_hsv = input_color_hsv.copy().astype(np.uint16)
@@ -48,11 +51,13 @@ def shift_hsv_values(input_color_hsv, hue = 0, saturation = 0, value = 0):
     shifted_img_color_rgb = cv2.cvtColor(shifted_img_color_hsv.astype(np.uint8), cv2.COLOR_HSV2RGB)
     
     # Show image
-    plt.imshow(shifted_img_color_rgb, interpolation = 'bicubic')
-    plt.axis('off')
-    plt.show()
-    
-    return
+    if show:
+        plt.imshow(shifted_img_color_rgb, interpolation = 'bicubic')
+        plt.axis('off')
+        plt.show()
+        return
+    else:
+        return shifted_img_color_rgb
 
 def plot_2_images(first, 
                   second, 
