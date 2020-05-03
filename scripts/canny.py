@@ -195,7 +195,7 @@ def main():
         extension = ntpath.basename(image_path).split('.')[1]
 
         filtered_image_path = ntpath.join(dirname, filename + "_canny." + extension)
-        cv2.imwrite(eq_norm_image_path, result)
+        cv2.imwrite(filtered_image_path, result)
 
     else: 
         raise ValueError("Exec mode argument {} is not supported (show or save)".format(exec_mode))
