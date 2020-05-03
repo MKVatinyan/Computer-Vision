@@ -2,6 +2,8 @@
 
 The <code><exec_mode></code> argument has two possible values : "show" to visualize the result without saving as in the screenshots below and "save" to save the resulting image in the same directory as the source image.
 
+If the image is too big, the "show" mode will not be adapted (the image will go out of the screen, I did not handle that case yet) so use "save".
+
 ## Histogram equalization
 
 Apply basic histogram equalization to the input image ([source](https://en.wikipedia.org/wiki/Histogram_equalization)). Histogram equalization is method of contrast adjustment of an image by stretching out the intensity range of an image (flattening its intensity histogram). For a step by step exploration of the concept see the dedicated notebook.
