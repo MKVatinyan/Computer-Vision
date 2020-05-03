@@ -2,6 +2,7 @@ import numpy as np
 import cv2
 import sys
 import ntpath
+from utils import show_or_save_result
 
 def equalize_image_histogram(image):
     """
@@ -68,22 +69,12 @@ def main():
     image = cv2.imread(image_path, 1)
     eq_norm_image = equalize_image_histogram(image)
 
-    if exec_mode == "show":
-        
-        cv2.imshow('Original image (left), Equalized histogram image (right)', np.hstack((image, eq_norm_image)))
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
-
-    elif exec_mode == "save":
-        dirname = ntpath.dirname(image_path)
-        filename = ntpath.basename(image_path).split('.')[0]
-        extension = ntpath.basename(image_path).split('.')[1]
-
-        eq_norm_image_path = ntpath.join(dirname, filename + "_eqnorm." + extension)
-        cv2.imwrite(eq_norm_image_path, eq_norm_image)
-
-    else: 
-        raise ValueError("Exec mode argument {} is not supported (show or save)".format(exec_mode))
+    show_or_save_result(exec_mode, 
+                        image, 
+                        eq_norm_image, 
+                        image_path, 
+                        'Original image (left), Equalized histogram image (right)', 
+                        '_eqnorm')
 
 if __name__ == '__main__':
     main()

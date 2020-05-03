@@ -3,6 +3,7 @@ import cv2
 import itertools
 import sys
 import ntpath
+from utils import show_or_save_result
 
 class CannyEdgeDetector:
     def __init__(self, 
@@ -183,22 +184,12 @@ def main():
     edge_detector = CannyEdgeDetector(hyst_min, hyst_max)
     result = edge_detector.apply(image)
 
-    if exec_mode == "show":
-        
-        cv2.imshow('Original image (left), Canny edge detection (right)', np.hstack((image, result)))
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
-
-    elif exec_mode == "save":
-        dirname = ntpath.dirname(image_path)
-        filename = ntpath.basename(image_path).split('.')[0]
-        extension = ntpath.basename(image_path).split('.')[1]
-
-        filtered_image_path = ntpath.join(dirname, filename + "_canny." + extension)
-        cv2.imwrite(filtered_image_path, result)
-
-    else: 
-        raise ValueError("Exec mode argument {} is not supported (show or save)".format(exec_mode))
+    show_or_save_result(exec_mode, 
+                        image, 
+                        result, 
+                        image_path, 
+                        'Original image (left), Canny edge detection (right)',
+                        '_canny')
 
 if __name__ == '__main__':
     main()

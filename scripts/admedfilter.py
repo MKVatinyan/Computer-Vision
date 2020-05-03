@@ -2,6 +2,7 @@ import numpy as np
 import cv2
 import sys
 import ntpath
+from utils import show_or_save_result
 
 def adaptive_median_filter(image, w_max, w_0 = 3):
     """
@@ -135,22 +136,12 @@ def main():
     image = cv2.imread(image_path, 0)
     filtered_image = adaptive_median_filter(image, w_max, w_0)
     
-    if exec_mode == "show":
-        
-        cv2.imshow('Original image (left), Filtered image (right)', np.hstack((image, filtered_image)))
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
-
-    elif exec_mode == "save":
-        dirname = ntpath.dirname(image_path)
-        filename = ntpath.basename(image_path).split('.')[0]
-        extension = ntpath.basename(image_path).split('.')[1]
-
-        filtered_image_path = ntpath.join(dirname, filename + "_medfilter." + extension)
-        cv2.imwrite(filtered_image_path, filtered_image)
-
-    else: 
-        raise ValueError("Exec mode argument {} is not supported (show or save)".format(exec_mode))
+    show_or_save_result(exec_mode, 
+                        image, 
+                        filtered_image, 
+                        image_path, 
+                        'Original image (left), Filtered image (right)',
+                        '_medfilter')
 
 if __name__ == '__main__':
     main()
