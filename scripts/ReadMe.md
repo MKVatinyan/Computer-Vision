@@ -44,3 +44,6 @@ Usage :
 Example result :
 
 ![](../md_images/canny_example.png)
+
+Bonus usage to use the opencv implementation of Canny on your webcam video feed: 
+    <pre><code>python canny.py webcam None <hyst_min> <hyst_max></code></pre>

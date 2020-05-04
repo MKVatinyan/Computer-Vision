@@ -76,31 +76,31 @@ class CannyEdgeDetector:
             for j in range(1, w - 1):
                     
                 # Get current pixel gradient direction (between pi and -pi)
-            # We can consider the abs because for theta and -theta we will check the same neighbors
-            grad_direction = np.abs(G_dir[i, j])
-                
-            # Left to right
-            if 0 <= grad_direction < (0. + np.pi/8) or (np.pi - np.pi/8) < grad_direction <= np.pi:
-                n1 = G_mag_nmx[i, j-1]
-                n2 = G_mag_nmx[i, j+1]
-                
-            # Bottom left to top right
-            elif (np.pi/4 - np.pi/8) <= grad_direction < (np.pi/4 + np.pi/8):
-                n1 = G_mag_nmx[i+1, j-1]
-                n2 = G_mag_nmx[i-1, j+1]
-                
-            # Bottom to top
-            elif (np.pi/2 - np.pi/8) <= grad_direction < (np.pi/2 + np.pi/8):
-                n1 = G_mag_nmx[i+1, j]
-                n2 = G_mag_nmx[i-1, j]
-                
-            # Bottom right to top left
-            elif (3*np.pi/4 - np.pi/8) <= grad_direction < (3*np.pi/4 + np.pi/8):
-                n1 = G_mag_nmx[i+1, j+1]
-                n2 = G_mag_nmx[i-1, j-1]
-                
-            if n1 >= G_mag_nmx[i, j] or  n2 >= G_mag_nmx[i, j]:
-                G_mag_nmx[i, j] = 0
+                # We can consider the abs because for theta and -theta we will check the same neighbors
+                grad_direction = np.abs(G_dir[i, j])
+
+                # Left to right
+                if 0 <= grad_direction < (0. + np.pi/8) or (np.pi - np.pi/8) < grad_direction <= np.pi:
+                    n1 = G_mag_nmx[i, j-1]
+                    n2 = G_mag_nmx[i, j+1]
+                    
+                # Bottom left to top right
+                elif (np.pi/4 - np.pi/8) <= grad_direction < (np.pi/4 + np.pi/8):
+                    n1 = G_mag_nmx[i+1, j-1]
+                    n2 = G_mag_nmx[i-1, j+1]
+                    
+                # Bottom to top
+                elif (np.pi/2 - np.pi/8) <= grad_direction < (np.pi/2 + np.pi/8):
+                    n1 = G_mag_nmx[i+1, j]
+                    n2 = G_mag_nmx[i-1, j]
+                    
+                # Bottom right to top left
+                elif (3*np.pi/4 - np.pi/8) <= grad_direction < (3*np.pi/4 + np.pi/8):
+                    n1 = G_mag_nmx[i+1, j+1]
+                    n2 = G_mag_nmx[i-1, j-1]
+                    
+                if n1 >= G_mag_nmx[i, j] or  n2 >= G_mag_nmx[i, j]:
+                    G_mag_nmx[i, j] = 0
             
         return G_mag_nmx
 
@@ -145,6 +145,7 @@ def main():
         Exec_mode values :
             "show" (use open cv to display horizontally stacked the original image and its processed version)
             "save" (save processed version in the same directory as the original image by appending "_canny" to its name)
+            "webcam" (use opencv canny implementation to apply it on webcam feed, <path_to_image> needs to be "None")
     """
 
     # Parse arguments
@@ -162,6 +163,25 @@ def main():
         hyst_max = int(sys.argv[4])
     except:
         raise ValueError("One of the thresholding parameters is not an int : {}, {}".format(sys.argv[3], sys.argv[4]))
+
+    if exec_mode == "webcam":
+        if input_image_path != "None":
+            raise ValueError("Please type None for the <path_to_image> argument in webcam exec_mode")
+        
+        cap = cv2.VideoCapture(0)
+        while(True):
+            ret, frame = cap.read()
+            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            canny_frame = cv2.Canny(frame, hyst_min, hyst_max)
+
+            cv2.imshow('Canny edge detection',canny_frame)
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+
+        # When everything done, release the capture
+        cap.release()
+        cv2.destroyAllWindows()
+        return
 
     # Run module on input_image_path
     if not path.exists(input_image_path):
