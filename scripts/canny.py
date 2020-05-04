@@ -175,6 +175,7 @@ def main():
             canny_frame = cv2.Canny(frame, hyst_min, hyst_max)
 
             cv2.imshow('Canny edge detection',canny_frame)
+            # Press Q to stop
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
 
