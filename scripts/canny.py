@@ -3,6 +3,7 @@ import cv2
 import itertools
 import sys
 import ntpath
+from os import path
 from utils import show_input_output, save_output
 
 class CannyEdgeDetector:
@@ -173,18 +174,21 @@ def main():
         raise TypeError('Incorrect number of arguments, usage is : python canny.py <exec_mode> <path_to_image> <hyst_min> <hyst_max>')
 
     exec_mode = sys.argv[1]
-    if exec_mode not in ["show", "save"]:
+    if exec_mode not in ["show", "save", "webcam"]:
         raise ValueError("Exec mode argument {} is not supported (show or save)".format(exec_mode))
 
     input_image_path = sys.argv[2]
-    
+
     try:
         hyst_min = int(sys.argv[3])
         hyst_max = int(sys.argv[4])
     except:
         raise ValueError("One of the thresholding parameters is not an int : {}, {}".format(sys.argv[3], sys.argv[4]))
 
-    # Run module
+    # Run module on input_image_path
+    if not path.exists(input_image_path):
+        raise ValueError("Incorrect path for input image : {}".format(input_image_path))
+
     input_image = cv2.imread(input_image_path, 0)
     edge_detector = CannyEdgeDetector(hyst_min, hyst_max)
     output_image = edge_detector.apply(input_image)

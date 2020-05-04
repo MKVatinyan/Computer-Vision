@@ -2,6 +2,7 @@ import numpy as np
 import cv2
 import sys
 import ntpath
+from os import path
 from utils import show_input_output, save_output
 
 def equalize_image_histogram(image):
@@ -69,10 +70,12 @@ def main():
         raise ValueError("Exec mode argument {} is not supported (show or save)".format(exec_mode))
 
     input_image_path = sys.argv[2]
+    if not path.exists(input_image_path):
+            raise ValueError("Incorrect path for input image : {}".format(input_image_path))
     
     # Run module
     input_image = cv2.imread(input_image_path, 1)
-    output_image = equalize_image_histogram(image)
+    output_image = equalize_image_histogram(input_image)
 
     # Show or save result
     if exec_mode == "show":

@@ -2,6 +2,7 @@ import numpy as np
 import cv2
 import sys
 import ntpath
+from os import path
 from utils import show_input_output, save_output
 
 def adaptive_median_filter(image, w_max, w_0 = 3):
@@ -131,6 +132,8 @@ def main():
         raise ValueError("Exec mode argument {} is not supported (show or save)".format(exec_mode))
 
     input_image_path = sys.argv[2]
+    if not path.exists(input_image_path):
+            raise ValueError("Incorrect path for input image : {}".format(input_image_path))
     
     try:
         w_max = int(sys.argv[3])
