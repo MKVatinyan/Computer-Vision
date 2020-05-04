@@ -3,7 +3,7 @@ import cv2
 import itertools
 import sys
 import ntpath
-from utils import show_or_save_result
+from utils import show_input_output, save_output
 
 class CannyEdgeDetector:
     def __init__(self, 

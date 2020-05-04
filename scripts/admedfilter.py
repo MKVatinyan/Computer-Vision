@@ -2,7 +2,7 @@ import numpy as np
 import cv2
 import sys
 import ntpath
-from utils import show_or_save_result
+from utils import show_input_output, save_output
 
 def adaptive_median_filter(image, w_max, w_0 = 3):
     """
