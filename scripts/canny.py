@@ -73,56 +73,35 @@ class CannyEdgeDetector:
         h, w = G_mag.shape
         G_mag_nmx = G_mag.copy()
 
-        # TODO refactor in a more compact way ?
         for i in range(1, h - 1):
             for j in range(1, w - 1):
                     
-                # Get current pixel
-                grad_direction = G_dir[i, j]
-                    
-                # Left to right
-                if (0. - np.pi/8) <= grad_direction <= (0. + np.pi/8):
-                    pixel_before = G_mag_nmx[i, j-1]
-                    pixel_after  = G_mag_nmx[i, j+1]
-                    
-                # Right to left
-                elif (np.pi - np.pi/8) <= grad_direction <= np.pi or -np.pi <= grad_direction <= (-np.pi + np.pi/8):
-                    pixel_before = G_mag_nmx[i, j+1]
-                    pixel_after  = G_mag_nmx[i, j-1]
-                        
-                # Bottom to top
-                elif (np.pi/2 - np.pi/8) <= grad_direction <= (np.pi/2 + np.pi/8):
-                    pixel_before = G_mag_nmx[i+1, j]
-                    pixel_after  = G_mag_nmx[i-1, j]
-                        
-                # Top to bottom
-                elif (-np.pi/2 - np.pi/8) <= grad_direction <= (-np.pi/2 + np.pi/8):
-                    pixel_before = G_mag_nmx[i-1, j]
-                    pixel_after  = G_mag_nmx[i+1, j]
-                    
-                # Bottom left to top right
-                elif (np.pi/4 - np.pi/8) <= grad_direction <= (np.pi/4 + np.pi/8):
-                    pixel_before = G_mag_nmx[i+1, j-1]
-                    pixel_after  = G_mag_nmx[i-1, j+1]
-                        
-                # Top left to bottom right
-                elif (-np.pi/4 - np.pi/8) <= grad_direction <= (-np.pi/4 + np.pi/8):
-                    pixel_before = G_mag_nmx[i-1, j+1]
-                    pixel_after  = G_mag_nmx[i+1, j-1]
-                        
-                # Bottom right to top left
-                elif (3*np.pi/4 - np.pi/8) <= grad_direction <= (3*np.pi/4 + np.pi/8):
-                    pixel_before = G_mag_nmx[i+1, j+1]
-                    pixel_after  = G_mag_nmx[i-1, j-1]
-                        
-                # Top right to bottom left
-                elif (-3*np.pi/4 - np.pi/8) <= grad_direction <= (-3*np.pi/4 + np.pi/8):
-                    pixel_before = G_mag_nmx[i-1, j-1]
-                    pixel_after  = G_mag_nmx[i+1, j+1]
-                    
-                # If pixel is not maximal then suppress
-                if pixel_before >= G_mag_nmx[i, j] or  pixel_after >= G_mag_nmx[i, j]:
-                    G_mag_nmx[i, j] = 0
+                # Get current pixel gradient direction (between pi and -pi)
+            # We can consider the abs because for theta and -theta we will check the same neighbors
+            grad_direction = np.abs(G_dir[i, j])
+                
+            # Left to right
+            if 0 <= grad_direction <= (0. + np.pi/8) or (np.pi - np.pi/8) <= grad_direction <= np.pi:
+                n1 = G_mag_nmx[i, j-1]
+                n2  = G_mag_nmx[i, j+1]
+                
+            # Bottom left to top right
+            elif (np.pi/4 - np.pi/8) <= grad_direction <= (np.pi/4 + np.pi/8):
+                n1 = G_mag_nmx[i+1, j-1]
+                n2  = G_mag_nmx[i-1, j+1]
+                
+            # Bottom to top
+            elif (np.pi/2 - np.pi/8) <= grad_direction <= (np.pi/2 + np.pi/8):
+                n1 = G_mag_nmx[i+1, j]
+                n2  = G_mag_nmx[i-1, j]
+                
+            # Bottom right to top left
+            elif (3*np.pi/4 - np.pi/8) <= grad_direction <= (3*np.pi/4 + np.pi/8):
+                n1 = G_mag_nmx[i+1, j+1]
+                n2 = G_mag_nmx[i-1, j-1]
+                
+            if n1 >= G_mag_nmx[i, j] or  n2 >= G_mag_nmx[i, j]:
+                G_mag_nmx[i, j] = 0
             
         return G_mag_nmx
 
