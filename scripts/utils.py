@@ -3,27 +3,18 @@ import cv2
 import matplotlib.pyplot as plt
 import ntpath
 
-def show_or_save_result(exec_mode, 
-                        original_image, 
-                        result, 
-                        original_image_path = None, 
-                        show_description = None,
-                        save_suffix = None):
-    if exec_mode == "show":
-        cv2.imshow(show_description, np.hstack((original_image, result)))
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
+def show_input_output(input_image, output_image, show_description):
+    cv2.imshow(show_description, np.hstack((input_image, output_image)))
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
-    elif exec_mode == "save":
-        dirname = ntpath.dirname(original_image_path)
-        filename = ntpath.basename(original_image_path).split('.')[0]
-        extension = ntpath.basename(original_image_path).split('.')[1]
+def save_output(output_image, original_image_path, save_suffix):
+    dirname = ntpath.dirname(original_image_path)
+    filename = ntpath.basename(original_image_path).split('.')[0]
+    extension = ntpath.basename(original_image_path).split('.')[1]
 
-        result_path = ntpath.join(dirname, filename + save_suffix + "." + extension)
-        cv2.imwrite(result_path, result)
-
-    else: 
-        raise ValueError("Exec mode argument {} is not supported (show or save)".format(exec_mode))
+    result_path = ntpath.join(dirname, filename + save_suffix + "." + extension)
+    cv2.imwrite(result_path, output_image)
 
 def resize_image(image, factor, interpolation):
     

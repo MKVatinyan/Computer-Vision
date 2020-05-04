@@ -114,34 +114,38 @@ def main():
             "show" (use open cv to display horizontally stacked the original image and its processed version)
             "save" (save processed version in the same directory as the original image by appending "_medfilter" to its name)
     """
-    exec_mode = sys.argv[1]
-    image_path = sys.argv[2]
-    w_max = sys.argv[3]
 
-    try:
-        w_max = int(w_max)
-    except:
-        raise ValueError("w_max argument is not an int : {}".format(w_max))
-
+    # Parse arguments
     if len(sys.argv) == 4:
         w_0 = 3
     elif len(sys.argv) == 5:
         try:
             w_0 = int(sys.argv[4])
         except:
-            raise ValueError("w_0 argument is not an int : {}".format(w_0))
+            raise ValueError("w_0 argument is not an int : {}".format(sys.argv[4]))
     else:
         raise TypeError('Incorrect number of arguments, usage is : python admedfilter.py <exec_mode> <path_to_image> <w_max> (<w_0>)')
 
-    image = cv2.imread(image_path, 0)
-    filtered_image = adaptive_median_filter(image, w_max, w_0)
+    exec_mode = sys.argv[1]
+    if exec_mode not in ["show", "save"]:
+        raise ValueError("Exec mode argument {} is not supported (show or save)".format(exec_mode))
+
+    input_image_path = sys.argv[2]
     
-    show_or_save_result(exec_mode, 
-                        image, 
-                        filtered_image, 
-                        image_path, 
-                        'Original image (left), Filtered image (right)',
-                        '_medfilter')
+    try:
+        w_max = int(sys.argv[3])
+    except:
+        raise ValueError("w_max argument is not an int : {}".format(sys.argv[3]))
+
+    # Run module
+    input_image = cv2.imread(input_image_path, 0)
+    output_image = adaptive_median_filter(input_image, w_max, w_0)
+    
+    # Show or save result
+    if exec_mode == "show":
+        show_input_output(input_image, output_image, 'Original image (left), Filtered image (right)')
+    elif exec_mode == "save":
+        save_output(output_image, original_image_path, '_medfilter'):
 
 if __name__ == '__main__':
     main()

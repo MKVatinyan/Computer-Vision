@@ -60,21 +60,25 @@ def main():
             "show" (use open cv to display horizontally stacked the original image and its processed version)
             "save" (save processed version in the same directory as the original image by appending "_eqnorm" to its name)
     """
-    exec_mode = sys.argv[1]
-    image_path = sys.argv[2]
-
+    # Parse arguments
     if len(sys.argv) != 3:
         raise TypeError('Incorrect number of arguments, usage is : python histeq.py <exec_mode> <path_to_image> ')
 
-    image = cv2.imread(image_path, 1)
-    eq_norm_image = equalize_image_histogram(image)
+    exec_mode = sys.argv[1]
+    if exec_mode not in ["show", "save"]:
+        raise ValueError("Exec mode argument {} is not supported (show or save)".format(exec_mode))
 
-    show_or_save_result(exec_mode, 
-                        image, 
-                        eq_norm_image, 
-                        image_path, 
-                        'Original image (left), Equalized histogram image (right)', 
-                        '_eqnorm')
+    input_image_path = sys.argv[2]
+    
+    # Run module
+    input_image = cv2.imread(input_image_path, 1)
+    output_image = equalize_image_histogram(image)
+
+    # Show or save result
+    if exec_mode == "show":
+        show_input_output(input_image, output_image, 'Original image (left), Equalized histogram image (right)')
+    elif exec_mode == "save":
+        save_output(output_image, original_image_path, '_eqnorm'):
 
 if __name__ == '__main__':
     main()

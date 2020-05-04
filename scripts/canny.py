@@ -168,8 +168,15 @@ def main():
             "save" (save processed version in the same directory as the original image by appending "_canny" to its name)
     """
 
+    # Parse arguments
+    if len(sys.argv) != 5:
+        raise TypeError('Incorrect number of arguments, usage is : python canny.py <exec_mode> <path_to_image> <hyst_min> <hyst_max>')
+
     exec_mode = sys.argv[1]
-    image_path = sys.argv[2]
+    if exec_mode not in ["show", "save"]:
+        raise ValueError("Exec mode argument {} is not supported (show or save)".format(exec_mode))
+
+    input_image_path = sys.argv[2]
     
     try:
         hyst_min = int(sys.argv[3])
@@ -177,19 +184,16 @@ def main():
     except:
         raise ValueError("One of the thresholding parameters is not an int : {}, {}".format(sys.argv[3], sys.argv[4]))
 
-    if len(sys.argv) != 5:
-        raise TypeError('Incorrect number of arguments, usage is : python canny.py <exec_mode> <path_to_image> <hyst_min> <hyst_max>')
-
-    image = cv2.imread(image_path, 0)
+    # Run module
+    input_image = cv2.imread(input_image_path, 0)
     edge_detector = CannyEdgeDetector(hyst_min, hyst_max)
-    result = edge_detector.apply(image)
+    output_image = edge_detector.apply(input_image)
 
-    show_or_save_result(exec_mode, 
-                        image, 
-                        result, 
-                        image_path, 
-                        'Original image (left), Canny edge detection (right)',
-                        '_canny')
+    # Show or save result
+    if exec_mode == "show":
+        show_input_output(input_image, output_image, 'Original image (left), Canny edge detection (right)')
+    elif exec_mode == "save":
+        save_output(output_image, original_image_path, '_canny'):
 
 if __name__ == '__main__':
     main()
