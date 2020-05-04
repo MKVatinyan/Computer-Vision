@@ -193,7 +193,7 @@ def main():
     if exec_mode == "show":
         show_input_output(input_image, output_image, 'Original image (left), Canny edge detection (right)')
     elif exec_mode == "save":
-        save_output(output_image, original_image_path, '_canny'):
+        save_output(output_image, original_image_path, '_canny')
 
 if __name__ == '__main__':
     main()

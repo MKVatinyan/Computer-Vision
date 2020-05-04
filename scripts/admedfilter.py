@@ -145,7 +145,7 @@ def main():
     if exec_mode == "show":
         show_input_output(input_image, output_image, 'Original image (left), Filtered image (right)')
     elif exec_mode == "save":
-        save_output(output_image, original_image_path, '_medfilter'):
+        save_output(output_image, original_image_path, '_medfilter')
 
 if __name__ == '__main__':
     main()

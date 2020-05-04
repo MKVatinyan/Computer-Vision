@@ -78,7 +78,7 @@ def main():
     if exec_mode == "show":
         show_input_output(input_image, output_image, 'Original image (left), Equalized histogram image (right)')
     elif exec_mode == "save":
-        save_output(output_image, original_image_path, '_eqnorm'):
+        save_output(output_image, original_image_path, '_eqnorm')
 
 if __name__ == '__main__':
     main()
