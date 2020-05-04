@@ -53,8 +53,7 @@ class CannyEdgeDetector:
         # Calculate gradient magnitude G_mag = |G_x|+|G_y|
         G_mag = cv2.addWeighted(cv2.convertScaleAbs(G_x), 1, cv2.convertScaleAbs(G_y), 1, 0, None)
             
-        # Calculate gradient direction G_dir = arctan((sobel_y*I) / (sobel_x*I)))
-        # arctan2 returns between [pi, -pi]
+        # Calculate gradient direction G_dir = arctan((sobel_y*I) / (sobel_x*I))), arctan2 returns between [pi, -pi]
         G_dir = np.arctan2(G_y, G_x)
             
         return G_mag, G_dir
@@ -81,22 +80,22 @@ class CannyEdgeDetector:
             grad_direction = np.abs(G_dir[i, j])
                 
             # Left to right
-            if 0 <= grad_direction <= (0. + np.pi/8) or (np.pi - np.pi/8) <= grad_direction <= np.pi:
+            if 0 <= grad_direction < (0. + np.pi/8) or (np.pi - np.pi/8) < grad_direction <= np.pi:
                 n1 = G_mag_nmx[i, j-1]
-                n2  = G_mag_nmx[i, j+1]
+                n2 = G_mag_nmx[i, j+1]
                 
             # Bottom left to top right
-            elif (np.pi/4 - np.pi/8) <= grad_direction <= (np.pi/4 + np.pi/8):
+            elif (np.pi/4 - np.pi/8) <= grad_direction < (np.pi/4 + np.pi/8):
                 n1 = G_mag_nmx[i+1, j-1]
-                n2  = G_mag_nmx[i-1, j+1]
+                n2 = G_mag_nmx[i-1, j+1]
                 
             # Bottom to top
-            elif (np.pi/2 - np.pi/8) <= grad_direction <= (np.pi/2 + np.pi/8):
+            elif (np.pi/2 - np.pi/8) <= grad_direction < (np.pi/2 + np.pi/8):
                 n1 = G_mag_nmx[i+1, j]
-                n2  = G_mag_nmx[i-1, j]
+                n2 = G_mag_nmx[i-1, j]
                 
             # Bottom right to top left
-            elif (3*np.pi/4 - np.pi/8) <= grad_direction <= (3*np.pi/4 + np.pi/8):
+            elif (3*np.pi/4 - np.pi/8) <= grad_direction < (3*np.pi/4 + np.pi/8):
                 n1 = G_mag_nmx[i+1, j+1]
                 n2 = G_mag_nmx[i-1, j-1]
                 
