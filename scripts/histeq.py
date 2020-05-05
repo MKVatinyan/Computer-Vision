@@ -3,7 +3,6 @@ import cv2
 import sys
 import ntpath
 from os import path
-from utils import show_input_output, save_output
 
 def equalize_image_histogram(image):
     """
@@ -52,6 +51,19 @@ def equalize_image_histogram(image):
 
     else:
         raise ValueError("Input dimension {} is not supported (expecting 3D RGB or 2D Gray)".format(image.shape))
+
+def show_input_output(input_image, output_image, show_description):
+    cv2.imshow(show_description, np.hstack((input_image, output_image)))
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+def save_output(output_image, original_image_path, save_suffix):
+    dirname = ntpath.dirname(original_image_path)
+    filename = ntpath.basename(original_image_path).split('.')[0]
+    extension = ntpath.basename(original_image_path).split('.')[1]
+
+    result_path = ntpath.join(dirname, filename + save_suffix + "." + extension)
+    cv2.imwrite(result_path, output_image)
 
 def main():
     """

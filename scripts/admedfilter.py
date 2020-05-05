@@ -3,7 +3,6 @@ import cv2
 import sys
 import ntpath
 from os import path
-from utils import show_input_output, save_output
 
 def adaptive_median_filter(image, w_max, w_0 = 3):
     """
@@ -102,6 +101,19 @@ def adaptive_median_filter_step(image, pix_location, w_max, w_size):
         return current_pixel if min_val < current_pixel < max_val else med_val
     else:
         return adaptive_median_filter_step(image, (i, j), w_max, w_size + 2)
+
+def show_input_output(input_image, output_image, show_description):
+    cv2.imshow(show_description, np.hstack((input_image, output_image)))
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+def save_output(output_image, original_image_path, save_suffix):
+    dirname = ntpath.dirname(original_image_path)
+    filename = ntpath.basename(original_image_path).split('.')[0]
+    extension = ntpath.basename(original_image_path).split('.')[1]
+
+    result_path = ntpath.join(dirname, filename + save_suffix + "." + extension)
+    cv2.imwrite(result_path, output_image)
 
 def main():
     """

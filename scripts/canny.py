@@ -4,7 +4,6 @@ import itertools
 import sys
 import ntpath
 from os import path
-from utils import show_input_output, save_output
 
 class CannyEdgeDetector:
     def __init__(self, 
@@ -135,6 +134,19 @@ class CannyEdgeDetector:
                     G_thresh[i, j] = 0 if np.all(neighbors != 255) else 255
                     
         return G_thresh
+
+def show_input_output(input_image, output_image, show_description):
+    cv2.imshow(show_description, np.hstack((input_image, output_image)))
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+def save_output(output_image, original_image_path, save_suffix):
+    dirname = ntpath.dirname(original_image_path)
+    filename = ntpath.basename(original_image_path).split('.')[0]
+    extension = ntpath.basename(original_image_path).split('.')[1]
+
+    result_path = ntpath.join(dirname, filename + save_suffix + "." + extension)
+    cv2.imwrite(result_path, output_image)
 
 def main():
     """
