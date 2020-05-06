@@ -4,11 +4,26 @@ The <code><exec_mode></code> argument has two possible values : "show" to visual
 
 If the image is too big, the "show" mode will not be adapted (the image will go out of the screen, I did not handle that case yet) so use "save".
 
+## Hue Thresholding
+
+Launch webcam and apply hue thresholding given a min and max values (or choose between "red", "green", "blue", some presets i hard coded which are not perfect). There will be two trackbars to control the minimal thresholding value of saturation and intensity to see the effect that it has.
+
+Usage :
+    <pre><code>python huethresh.py <hue_min> <hue_max></code></pre>
+    <pre><code>python huethresh.py 0 0 <preset> </code></pre>
+
+Example results :
+
+![](../md_images/hue_thresh_red.png)  |  ![](../md_images/hue_thresh_blue.png) | ![](../md_images/hue_thresh_green.png)
+
+Limitations : 
+You can check the notebook on colors for more details, but here we take very hard thresholds which are not perfect to capture a given color perfectly (e.g. the red may capture some of your skin). The goal here is to illustrate the concept of hue thresholding, but if we want to isolate a single object and its color on an image we should also take into account the localization of that object (with some kind of segmentation step.)
+
 ## Histogram equalization
 
 Apply basic histogram equalization to the input image ([source](https://en.wikipedia.org/wiki/Histogram_equalization)). Histogram equalization is method of contrast adjustment of an image by stretching out the intensity range of an image (flattening its intensity histogram). For a step by step exploration of the concept see the dedicated notebook.
 
-Usage :
+Usages :
     <pre><code>python histeq.py <exec_mode> <path_to_image></code></pre>
 
 Example result :
@@ -21,7 +36,8 @@ Limitations : this method considers the global intensity of the picture and has 
 
 Apply median filtering or adaptive median filtering to the input image ([source](https://en.wikipedia.org/wiki/Median_filter)). Median filtering is a method of image smoothing / noise removal by applying a non-linear filter which selects the median pixel value in the sliding window. Adaptive median filtering is the same idea but with an adaptive window size : we slide an initial window of size <code><w_0></code> (3 by default) and we can increase its size up to <code><w_max></code>. (see code for more details and implementation).
 
-Usage :
+Usages :
+    <pre><code>python admedfilter.py <exec_mode> <path_to_image> <w_max> <w_0></code></pre>
     <pre><code>python admedfilter.py <exec_mode> <path_to_image> <w_max> (<w_0>)</code></pre>
 
 Example result that works well :
