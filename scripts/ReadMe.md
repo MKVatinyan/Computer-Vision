@@ -15,9 +15,9 @@ Usage :
 Example results :
 
 <table><tr>
-    <td> <img src="..\md_images\hue_thresh_blue.png" alt="Drawing" style="width: 300px;"/> </td>
-    <td> <img src="..\md_images\hue_thresh_red.png" alt="Drawing" style="width: 300px;"/> </td>
-    <td> <img src="..\md_images\hue_thresh_green.png" alt="Drawing" style="width: 300px;"/> </td>
+    <td> <img src="..\md_images\hue_thresh_red.png" alt="Red preset" style="width: 300px;"/> </td>
+    <td> <img src="..\md_images\hue_thresh_blue.png" alt="Blue preset" style="width: 300px;"/> </td>
+    <td> <img src="..\md_images\hue_thresh_green.png" alt="Green preset" style="width: 300px;"/> </td>
 </tr></table>
 
 Limitations : 
