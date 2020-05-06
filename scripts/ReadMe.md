@@ -8,6 +8,10 @@ If the image is too big, the "show" mode will not be adapted (the image will go 
 
 Launch webcam and apply hue thresholding given a min and max values (or choose between "red", "green", "blue", some presets i hard coded which are not perfect). There will be two trackbars to control the minimal thresholding value of saturation and intensity to see the effect that it has.
 
+Here is the hsv cone color space, the thresholding happens on this. You can see that low saturation tends to white and low value tends to black so we only allow to set a minimal threshold on those values. On OpenCv hue values are between 0 and 179, 0 falling kind of in the middle of the middle red section (thus to capture red we need to take [0, hue_max] and [hue_min, 0] with hue_min being negative).
+
+![](../md_images/hsv_cone.png)
+
 Usage :
     <pre><code>python huethresh.py <hue_min> <hue_max></code></pre>
     <pre><code>python huethresh.py 0 0 &lt;preset&gt;</code></pre>
