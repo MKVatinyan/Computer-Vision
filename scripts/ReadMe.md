@@ -14,8 +14,11 @@ Usage :
 
 Example results :
 
-Red preset | Blue preset | Green preset
-![](../md_images/hue_thresh_red.png | width=300))  |  ![](../md_images/hue_thresh_blue.png | width=300) | ![](../md_images/hue_thresh_green.png | width=300)
+<table><tr>
+    <td> <img src="md_images\hue_thresh_blue.png" alt="Drawing" style="width: 300px;"/> </td>
+    <td> <img src="md_images\hue_thresh_red.png" alt="Drawing" style="width: 300px;"/> </td>
+    <td> <img src="md_images\hue_thresh_green.png" alt="Drawing" style="width: 300px;"/> </td>
+</tr></table>
 
 Limitations : 
 You can check the notebook on colors for more details, but here we take very hard thresholds which are not perfect to capture a given color perfectly (e.g. the red may capture some of your skin). The goal here is to illustrate the concept of hue thresholding, but if we want to isolate a single object and its color on an image we should also take into account the localization of that object (with some kind of segmentation step.)
