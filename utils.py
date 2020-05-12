@@ -3,6 +3,37 @@ import cv2
 import matplotlib.pyplot as plt
 import ntpath
 
+def run_video_capture(w_name = "Video Capture",
+                        screenshot_directory = None,
+                        process_frame = None):
+
+    cap = cv2.VideoCapture(0)
+    w_name += " (press q to quit, space to take screenshot if directory specified)"
+    cv2.namedWindow(w_name)
+    screenshot_idx = 0
+
+    while(True):
+
+        ret, frame = cap.read()
+        if process_frame is not None:
+            frame = process_frame(frame)
+        
+        cv2.imshow(w_name, frame)
+
+        # Press Q to stop
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+
+        if cv2.waitKey(1) & 0xFF == ord(' ') and screenshot_directory is not None:
+            path = ntpath.join(screenshot_directory, "screenshot_{}.jpg".format(screenshot_idx))
+            print("saving to {}".format(path))
+            cv2.imwrite(path, frame)
+            continue
+
+    # When everything done, release the capture
+    cap.release()
+    cv2.destroyAllWindows()
+
 def resize_image(image, factor, interpolation):
     
     assert factor != 0.
