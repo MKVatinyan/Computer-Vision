@@ -36,12 +36,13 @@ Launch webcam, select a template from a frame and match the next incoming frames
 - Press p again to repeat the process
 - Press q to quit 
 
-Usage :
+Usage (second usage not really tested yet):
     <pre><code>python templateMatch.py </code></pre>
     <pre><code>python templateMatch.py <matching_mode> <thresh> <nmax_matches></code></pre>
 
 Example result :
-    ![](../md_images/templateMatch.gif)
+
+![](../md_images/templateMatch.gif)
 
 We can see the scale invariance problem, if the objects depth (or event other aspects which influence directly the pixel values, e.g. the brightness) changes the algorithm is lost.
 
