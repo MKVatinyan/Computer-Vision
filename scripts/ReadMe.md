@@ -27,6 +27,24 @@ Example results :
 Limitations : 
 You can check the notebook on colors for more details, but here we take very hard thresholds which are not perfect to capture a given color perfectly (e.g. the red may capture some of your skin). The goal here is to illustrate the concept of hue thresholding, but if we want to isolate a single object and its color on an image we should also take into account the localization of that object (with some kind of segmentation step.)
 
+## Template matching
+
+Launch webcam, select a template from a frame and match the next incoming frames when the video resumes. Once the webcam is on :
+- Press p to pause video
+- While on pause, use the mouse to select a rectangle area on the frame
+- Once satisfied, press enter to validate the area as template and initiate the matching
+- Press p again to repeat the process
+- Press q to quit 
+
+Usage :
+    <pre><code>python templateMatch.py </code></pre>
+    <pre><code>python templateMatch.py <matching_mode> <thresh> <nmax_matches></code></pre>
+
+Example result :
+    ![](../md_images/templateMatch.gif)
+
+We can see the scale invariance problem, if the objects depth (or event other aspects which influence directly the pixel values, e.g. the brightness) changes the algorithm is lost.
+
 ## Histogram equalization
 
 Apply basic histogram equalization to the input image ([source](https://en.wikipedia.org/wiki/Histogram_equalization)). Histogram equalization is method of contrast adjustment of an image by stretching out the intensity range of an image (flattening its intensity histogram). For a step by step exploration of the concept see the dedicated notebook.
